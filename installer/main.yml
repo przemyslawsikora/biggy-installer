@@ -1,0 +1,13 @@
+---
+- name: Install Docker
+  hosts: all
+  connection: local
+  become: yes
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.pip
+  vars:
+    docker_users:
+      - admin
+    pip_install_packages:
+      - name: docker
