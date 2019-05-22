@@ -13,12 +13,13 @@
 
 Type following command
 ```bash
+chmod u+x build_installer.sh
 ./build_installer.sh
 ```
 
 ### How to run the installer?
 
-Type following command
+Type following command as root
 ```bash
-./biggy_1.0.0.run
+./biggy_1.0.0.run single_machine.yml
 ```

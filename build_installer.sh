@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 cd installer
 rm venv -Rf
+rm artifacts -Rf
+mkdir artifacts
 python3 -m venv venv
 source venv/bin/activate
 pip install wheel
 pip install ansible
-ansible-galaxy install -r requirements.yml
+#ansible-galaxy install -r requirements.yml
+ansible-playbook main.yml -i localhost --tags "build_installer"
 deactivate
 chmod u+x run_installer.sh
 cd ..
