@@ -2,15 +2,36 @@
 - name: Install Docker
   hosts: all
   connection: local
+  become: yes
   roles:
     - docker
 
-- name: Touch a test file
+- name: Manage an admin user
   hosts: all
   connection: local
   become: yes
+  vars_files:
+    - vars/global.yml
+    - vars/passwords
+  roles:
+    - users
+
+- name: Create common Docker network
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
   tasks:
-    - name: Create file test.test
-      file:
-        path: /test.test
-        state: touch
+    - name: Create common Docker network
+      docker_network:
+        name: "{{ docker_network_name }}"
+
+- name: Install Zookeeper
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
+  roles:
+    - zookeeper

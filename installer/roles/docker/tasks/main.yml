@@ -1,7 +1,33 @@
 ---
 - name: Download Docker binaries
   get_url:
-    url: https://download.docker.com/linux/static/stable/x86_64/docker-18.09.6.tgz
-    dest: "{{ playbook_dir }}/artifacts/docker-18.09.6.tgz"
+    url: "https://download.docker.com/linux/{{ item.url }}"
+    dest: "{{ playbook_dir }}/artifacts/{{ item.name }}"
+  with_items:
+    - {
+      "url": "ubuntu/dists/bionic/pool/stable/amd64/containerd.io_1.2.5-1_amd64.deb",
+      "name": "containerd.io_1.2.5-1_amd64.deb"
+    }
+    - {
+      "url": "ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_18.09.6~3-0~ubuntu-bionic_amd64.deb",
+      "name": "docker-ce-cli_18.09.6~3-0~ubuntu-bionic_amd64.deb"
+    }
+    - {
+      "url": "ubuntu/dists/bionic/pool/stable/amd64/docker-ce_18.09.6~3-0~ubuntu-bionic_amd64.deb",
+      "name": "docker-ce_18.09.6~3-0~ubuntu-bionic_amd64.deb"
+    }
   tags:
     - build_installer
+
+- name: Install and start Docker
+  apt:
+    deb: "{{ playbook_dir }}/artifacts/{{ item }}"
+  with_items:
+    - "containerd.io_1.2.5-1_amd64.deb"
+    - "docker-ce-cli_18.09.6~3-0~ubuntu-bionic_amd64.deb"
+    - "docker-ce_18.09.6~3-0~ubuntu-bionic_amd64.deb"
+
+- name: Ensure group "docker" exists
+  group:
+    name: docker
+    state: present

@@ -1,0 +1,10 @@
+---
+- name: Create application administrator account
+  user:
+    name: "{{ admin_name }}"
+    password: "{{ admin_password | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups:
+      - sudo
+      - docker
+    append: yes
