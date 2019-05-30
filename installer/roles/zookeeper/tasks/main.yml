@@ -9,6 +9,8 @@
 
 - name: Load Zookeeper image
   docker_image:
+    name: zookeeper:3.5
+    source: load
     load_path: "{{ playbook_dir }}/artifacts/zookeeper_3.5.tar"
 
 - name: Create Zookeeper data volume
@@ -33,5 +35,5 @@
       - zookeeper_data:/data
       - zookeeper_logs:/datalog
     env:
-      ZOO_MY_ID: 1
-      ZOO_AUTOPURGE_PURGEINTERVAL: 3
+      ZOO_MY_ID: "1"
+      ZOO_AUTOPURGE_PURGEINTERVAL: "3"

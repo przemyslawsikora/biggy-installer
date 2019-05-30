@@ -1,5 +1,9 @@
 # Biggy Installer
 
+Biggy Installer allows you to install the Biggy system very easily without Internet access.  
+Biggy system is:
+- Zookeeper on Docker 
+
 ### How to build the installer?
 
 1. Prepare server with Ubuntu 18.04 LTS (Bionic Beaver)
@@ -44,16 +48,17 @@
    ```
 7. Build the installer by typing
    ```bash
-   chmod u+x build_installer.sh
-   sudo sh build_installer.sh
+   sudo chmod u+x build_installer.sh
+   sudo bash build_installer.sh password.txt
    ```
 
 ### How to run the installer?
 
-Installation on the single machine:
+Installation on a single machine:
 1. Prepare server with Ubuntu 18.04 LTS (Bionic Beaver)
 2. Copy <code>biggy_1.0.0.run</code> and <code>single_machine.yml</code> files into target machine
-3. Type following command
+3. Type following commands
    ```bash
-   sudo sh biggy_1.0.0.run single_machine.yml
+   sudo chmod u+x biggy_1.0.0.run
+   sudo bash biggy_1.0.0.run single_machine.yml
    ```
