@@ -19,7 +19,7 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus_admin', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASSWORD')]) {
-                    sh 'curl -v -u $NEXUS_USER:$NEXUS_PASSWORD --upload-file *.run $nexus_address/repository/raw-hosted/biggy/$(find . -name "*.run" | sed "s|^\./||")'
+                    sh 'curl -v -u $NEXUS_USER:$NEXUS_PASSWORD --upload-file *.run $nexus_address/repository/raw-hosted/biggy/$(find . -name "*.run" | sed "s|^\\./||")'
                 }
             }
         }
