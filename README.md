@@ -52,6 +52,15 @@ Biggy system is:
    sudo bash build_installer.sh password.txt
    ```
 
+To allow Jenkins to build the installer and publish it into Nexus,  
+you must define following variables in Jenkins:
+
+| Credential ID / Variable | Kind                                | Description                                           |
+|--------------------------|-------------------------------------|-------------------------------------------------------|
+| nexus_admin              | Credential / Username with password | Username and password to your Nexus                   |
+| vault                    | Credential / Secret file            | File password.txt with vault password (default is 12345) |
+| nexus_address            | Environment variable                | Address to your Nexus, e.g. https://nexus.example.com  |
+
 ### How to run the installer?
 
 Installation on a single machine:
