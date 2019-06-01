@@ -1,0 +1,29 @@
+---
+- name: Pull and save KafkaHQ image
+  docker_image:
+    name: tchiotludo/kafkahq:0.7.2
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/tchiotludo_kafkahq_0.7.2.tar"
+  tags:
+    - build_installer
+
+- name: Load KafkaHQ image
+  docker_image:
+    name: tchiotludo/kafkahq:0.7.2
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/tchiotludo_kafkahq_0.7.2.tar"
+
+- name: Create KafkaHQ container
+  docker_container:
+    name: kafkahq
+    image: tchiotludo/kafkahq:0.7.2
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - kafkahq
+    purge_networks: yes
+    volumes:
+      - "{{ playbook_dir }}/roles/{{role_name}}/files/kafkahq.yml:/app/application.yml"
+    published_ports:
+      - 127.0.0.1:8080:8080

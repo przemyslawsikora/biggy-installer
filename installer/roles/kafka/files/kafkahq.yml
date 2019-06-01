@@ -1,0 +1,9 @@
+kafkahq:
+  server:
+    base-path: ""
+  connections:
+    biggy-cluster:
+      properties:
+        bootstrap.servers: "kafka:9092"
+      schema-registry:
+        url: "http://schemaregistry:8085"

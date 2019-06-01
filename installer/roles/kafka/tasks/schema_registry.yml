@@ -1,0 +1,32 @@
+---
+- name: Pull and save Schema Registry image
+  docker_image:
+    name: confluentinc/cp-schema-registry:5.2.1
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/confluentinc_cp_schema_registry_5.2.1.tar"
+  tags:
+    - build_installer
+
+- name: Load Schema Registry image
+  docker_image:
+    name: confluentinc/cp-schema-registry:5.2.1
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/confluentinc_cp_schema_registry_5.2.1.tar"
+
+- name: Create Schema Registry container
+  docker_container:
+    name: schema-registry
+    image: confluentinc/cp-schema-registry:5.2.1
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - schemaregistry
+    purge_networks: yes
+    env:
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka:9092"
+      SCHEMA_REGISTRY_HOST_NAME: schemaregistry
+      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
+      SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: INFO
+    published_ports:
+      - 127.0.0.1:8085:8085

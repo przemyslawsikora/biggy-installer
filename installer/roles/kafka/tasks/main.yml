@@ -1,0 +1,21 @@
+---
+- import_tasks: kafka.yml
+- import_tasks: schema_registry.yml
+- import_tasks: kafkahq.yml
+
+- name: Create Kafka topic 'events'
+  docker_container:
+    name: kafka-topic-events
+    image: confluentinc/cp-kafka:5.2.1
+    auto_remove: yes
+    networks:
+      - name: "{{ docker_network_name }}"
+    purge_networks: yes
+    command:
+      - kafka-topics
+      - --create
+      - --topic events
+      - --partitions 1
+      - --replication-factor 1
+      - --if-not-exists
+      - --zookeeper zookeeper:2181

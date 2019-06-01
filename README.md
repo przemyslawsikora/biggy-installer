@@ -1,8 +1,16 @@
 # Biggy Installer
 
 Biggy Installer allows you to install the Biggy system very easily without Internet access.  
-Biggy system is:
-- Zookeeper on Docker 
+Biggy system contains:
+- Zookeeper
+- Kafka, Schema Registry and KafkaHQ
+
+Internal applications:
+
+| Name            | Address               |
+|-----------------|-----------------------|
+| KafkaHQ         | http://localhost:8080 |
+| Schema Registry | http://localhost:8085 |
 
 ### How to build the installer?
 
@@ -46,6 +54,8 @@ Biggy system is:
    ```bash
    echo "12345" > password.txt
    ```
+   **Note:** You should keep this file as secret file in Jenkins rather than create it by your own inside the repository.  
+   Don't add this file to GIT control!
 7. Build the installer by typing
    ```bash
    sudo chmod u+x build_installer.sh
@@ -55,11 +65,11 @@ Biggy system is:
 To allow Jenkins to build the installer and publish it into Nexus,  
 you must define following variables in Jenkins:
 
-| Credential ID / Variable | Kind                                | Description                                           |
-|--------------------------|-------------------------------------|-------------------------------------------------------|
-| nexus_admin              | Credential / Username with password | Username and password to your Nexus                   |
+| Credential ID / Variable | Kind                                | Description                                              |
+|--------------------------|-------------------------------------|----------------------------------------------------------|
+| nexus_admin              | Credential / Username with password | Username and password to your Nexus                      |
 | vault                    | Credential / Secret file            | File password.txt with vault password (default is 12345) |
-| nexus_address            | Environment variable                | Address to your Nexus, e.g. https://nexus.example.com  |
+| nexus_address            | Environment variable                | Address to your Nexus, e.g. https://nexus.example.com    |
 
 ### How to run the installer?
 
