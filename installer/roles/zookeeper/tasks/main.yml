@@ -4,6 +4,7 @@
     name: zookeeper:3.5
     source: pull
     archive_path: "{{ playbook_dir }}/artifacts/zookeeper_3.5.tar"
+    timeout: 300
   tags:
     - build_installer
 

@@ -4,13 +4,15 @@ Biggy Installer allows you to install the Biggy system very easily without Inter
 Biggy system contains:
 - Zookeeper
 - Kafka, Schema Registry and KafkaHQ
+- NiFi
 
 Internal applications:
 
-| Name            | Address               |
-|-----------------|-----------------------|
-| KafkaHQ         | http://localhost:8080 |
-| Schema Registry | http://localhost:8085 |
+| Name            | Address                    |
+|-----------------|----------------------------|
+| KafkaHQ         | http://localhost:8080      |
+| Schema Registry | http://localhost:8085      |
+| NiFi            | http://localhost:8081/nifi |
 
 ### How to build the installer?
 
@@ -62,8 +64,7 @@ Internal applications:
    sudo bash build_installer.sh password.txt
    ```
 
-To allow Jenkins to build the installer and publish it into Nexus,  
-you must define following variables in Jenkins:
+To allow Jenkins to build the installer and publish it into Nexus, you must define following variables in Jenkins:
 
 | Credential ID / Variable | Kind                                | Description                                              |
 |--------------------------|-------------------------------------|----------------------------------------------------------|

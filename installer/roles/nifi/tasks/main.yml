@@ -1,0 +1,36 @@
+---
+- name: Pull and save NiFi image
+  docker_image:
+    name: apache/nifi:1.9.2
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/apache_nifi_1.9.2.tar"
+    timeout: 300
+  tags:
+    - build_installer
+
+- name: Load NiFi image
+  docker_image:
+    name: apache/nifi:1.9.2
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/apache_nifi_1.9.2.tar"
+
+- name: Create NiFi data volume
+  docker_volume:
+    name: nifi_data
+
+- name: Create NiFi container
+  docker_container:
+    name: nifi
+    image: apache/nifi:1.9.2
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - nifi
+    purge_networks: yes
+    volumes:
+      - nifi_data:/opt/nifi/nifi-current
+    published_ports:
+      - 127.0.0.1:8081:8081
+    env:
+      NIFI_WEB_HTTP_PORT: "8081"

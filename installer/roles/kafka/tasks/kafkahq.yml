@@ -4,6 +4,7 @@
     name: tchiotludo/kafkahq:0.7.2
     source: pull
     archive_path: "{{ playbook_dir }}/artifacts/tchiotludo_kafkahq_0.7.2.tar"
+    timeout: 300
   tags:
     - build_installer
 

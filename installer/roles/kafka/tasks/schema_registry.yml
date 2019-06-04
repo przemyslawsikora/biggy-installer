@@ -4,6 +4,7 @@
     name: confluentinc/cp-schema-registry:5.2.1
     source: pull
     archive_path: "{{ playbook_dir }}/artifacts/confluentinc_cp_schema_registry_5.2.1.tar"
+    timeout: 300
   tags:
     - build_installer
 
