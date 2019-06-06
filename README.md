@@ -5,14 +5,19 @@ Biggy system contains:
 - Zookeeper
 - Kafka, Schema Registry and KafkaHQ
 - NiFi
+- MongoDB
 
 Internal applications:
-
-| Name            | Address                    |
-|-----------------|----------------------------|
-| KafkaHQ         | http://localhost:8080      |
-| Schema Registry | http://localhost:8085      |
-| NiFi            | http://localhost:8081/nifi |
+- KafkaHQ  
+  http://localhost:8080
+- Schema Registry  
+  http://localhost:8085
+- NiFi  
+  http://localhost:8081/nifi
+- MongoDB  
+  Port: 27017  
+  Root username: mongoadmin (change it in vars/global.yml)  
+  Root password: mongo12345 (change it in vars/passwords)
 
 ### How to build the installer?
 

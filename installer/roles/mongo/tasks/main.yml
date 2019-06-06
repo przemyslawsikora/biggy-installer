@@ -1,0 +1,43 @@
+---
+- name: Pull and save MongoDB image
+  docker_image:
+    name: mongo:4.0
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/mongo_4.0.tar"
+    timeout: 300
+  tags:
+    - build_installer
+
+- name: Load MongoDB image
+  docker_image:
+    name: mongo:4.0
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/mongo_4.0.tar"
+
+- name: Create MongoDB data volume
+  docker_volume:
+    name: mongo_data
+
+- name: Create MongoDB container
+  docker_container:
+    name: mongo
+    image: mongo:4.0
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - mongo
+    purge_networks: yes
+    command:
+      - "mongod"
+      - "--auth"
+      - "--config"
+      - "/etc/mongo/mongod.conf"
+    volumes:
+      - mongo_data:/data/db
+      - "{{ playbook_dir }}/roles/{{role_name}}/files/mongod.conf:/etc/mongo/mongod.conf"
+    published_ports:
+      - 127.0.0.1:27017:27017
+    env:
+      MONGO_INITDB_ROOT_USERNAME: "{{ mongo_root_username }}"
+      MONGO_INITDB_ROOT_PASSWORD: "{{ mongo_root_password }}"

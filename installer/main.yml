@@ -53,3 +53,13 @@
     - vars/global.yml
   roles:
     - nifi
+
+- name: Install MongoDB
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
+    - vars/passwords
+  roles:
+    - mongo

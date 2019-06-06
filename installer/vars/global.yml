@@ -2,3 +2,4 @@
 admin_name: biggy
 docker_network_name: biggy-network
 ansible_python_interpreter: venv/bin/python
+mongo_root_username: mongoadmin
