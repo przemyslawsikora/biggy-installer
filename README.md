@@ -3,21 +3,16 @@
 Biggy Installer allows you to install the Biggy system very easily without Internet access.  
 Biggy system contains:
 - Zookeeper
-- Kafka, Schema Registry and KafkaHQ
-- NiFi
-- MongoDB
-
-Internal applications:
-- KafkaHQ  
-  http://localhost:8080
-- Schema Registry  
-  http://localhost:8085
-- NiFi  
-  http://localhost:8081/nifi
+- Kafka (port 9093)
+- Schema Registry (port 8085)
 - MongoDB  
-  Port: 27017  
-  Root username: mongoadmin (change it in vars/global.yml)  
-  Root password: mongo12345 (change it in vars/passwords)
+  port: 27017  
+  root username: mongoadmin (change it in vars/global.yml)  
+  root password: mongo12345 (change it in vars/passwords)
+- Elasticsearch (ports 9200, 9300)
+- KafkaHQ (http://localhost:8080)
+- NiFi (http://localhost:8081/nifi)
+- Dejavu (http://localhost:1358)
 
 ### How to build the installer?
 

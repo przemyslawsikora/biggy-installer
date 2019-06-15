@@ -1,0 +1,46 @@
+---
+- name: Set maximum size virtual memory check
+  shell: sysctl -w vm.max_map_count=262144
+
+- name: Pull and save Elasticsearch image
+  docker_image:
+    name: elasticsearch:7.1.1
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/elasticsearch_7.1.1.tar"
+    timeout: 300
+  tags:
+    - build_installer
+
+- name: Load Elasticsearch image
+  docker_image:
+    name: elasticsearch:7.1.1
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/elasticsearch_7.1.1.tar"
+
+- name: Create Elasticsearch data volume
+  docker_volume:
+    name: elasticsearch_data
+
+- name: Create Elasticsearch container
+  docker_container:
+    name: elasticsearch
+    image: elasticsearch:7.1.1
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - elasticsearch
+    purge_networks: yes
+    ulimits:
+      - "memlock:-1:-1"
+      - "nofile:65535:65535"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - "{{ playbook_dir }}/roles/{{role_name}}/files/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+    published_ports:
+      - 127.0.0.1:9200:9200
+      - 127.0.0.1:9300:9300
+    env:
+      cluster.name: "biggy-cluster"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"

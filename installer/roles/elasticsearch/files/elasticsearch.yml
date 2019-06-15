@@ -1,0 +1,13 @@
+node:
+  name: elastic1
+discovery:
+  type: single-node
+network:
+  host: elasticsearch
+http:
+  port: 9200
+  cors:
+    enabled: true
+    allow-origin: http://localhost:1358,http://127.0.0.1:1358
+    allow-headers: X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+    allow-credentials: true

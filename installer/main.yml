@@ -63,3 +63,12 @@
     - vars/passwords
   roles:
     - mongo
+
+- name: Install Elasticsearch
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
+  roles:
+    - elasticsearch
