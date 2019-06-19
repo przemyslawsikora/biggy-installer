@@ -1,0 +1,28 @@
+---
+- name: Pull and save ElasticHQ image
+  docker_image:
+    name: elastichq/elasticsearch-hq:release-v3.5.0
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/elasticsearch-hq_release-v3.5.0.tar"
+    timeout: 300
+  tags:
+    - build_installer
+
+- name: Load ElasticHQ image
+  docker_image:
+    name: elastichq/elasticsearch-hq:release-v3.5.0
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/elasticsearch-hq_release-v3.5.0.tar"
+
+- name: Create ElasticHQ container
+  docker_container:
+    name: elastichq
+    image: elastichq/elasticsearch-hq:release-v3.5.0
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - elastichq
+    purge_networks: yes
+    published_ports:
+      - 127.0.0.1:5000:5000
