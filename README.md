@@ -12,7 +12,7 @@ Biggy system contains:
 - Elasticsearch (ports 9200, 9300)
 - KafkaHQ (http://localhost:8080)
 - NiFi (http://localhost:8081/nifi)
-- Dejavu (http://localhost:1358)
+- ElasticHQ (http://localhost:5000)
 
 ### How to build the installer?
 

@@ -4,18 +4,18 @@
 
 - name: Pull and save Elasticsearch image
   docker_image:
-    name: elasticsearch:7.1.1
+    name: elasticsearch:6.8.0
     source: pull
-    archive_path: "{{ playbook_dir }}/artifacts/elasticsearch_7.1.1.tar"
+    archive_path: "{{ playbook_dir }}/artifacts/elasticsearch_6.8.0.tar"
     timeout: 300
   tags:
     - build_installer
 
 - name: Load Elasticsearch image
   docker_image:
-    name: elasticsearch:7.1.1
+    name: elasticsearch:6.8.0
     source: load
-    load_path: "{{ playbook_dir }}/artifacts/elasticsearch_7.1.1.tar"
+    load_path: "{{ playbook_dir }}/artifacts/elasticsearch_6.8.0.tar"
 
 - name: Create Elasticsearch data volume
   docker_volume:
@@ -24,7 +24,7 @@
 - name: Create Elasticsearch container
   docker_container:
     name: elasticsearch
-    image: elasticsearch:7.1.1
+    image: elasticsearch:6.8.0
     restart_policy: always
     networks:
       - name: "{{ docker_network_name }}"
