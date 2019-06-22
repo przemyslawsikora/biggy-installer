@@ -5,12 +5,12 @@ APP_NAME="Biggy"
 APP_VERSION="1.0.0"
 
 rm ${APP_REF}_${APP_VERSION}.run -f
-cd installer
+cd installer || exit 1
 rm venv -Rf
 rm artifacts -Rf
 mkdir artifacts
-wget http://archive.ubuntu.com/ubuntu/pool/main/p/python3-stdlib-extensions/python3-lib2to3_3.6.5-3_all.deb  -P artifacts || exit 1
-wget http://archive.ubuntu.com/ubuntu/pool/main/p/python3-stdlib-extensions/python3-distutils_3.6.5-3_all.deb  -P artifacts || exit 1
+wget http://archive.ubuntu.com/ubuntu/pool/main/p/python3-stdlib-extensions/python3-lib2to3_3.6.5-3_all.deb -P artifacts || exit 1
+wget http://archive.ubuntu.com/ubuntu/pool/main/p/python3-stdlib-extensions/python3-distutils_3.6.5-3_all.deb -P artifacts || exit 1
 python3 -m venv venv
 source venv/bin/activate
 pip install -r python_requirements.txt
@@ -18,7 +18,7 @@ pip install -r python_requirements.txt
 cd ..
 ansible-playbook installer/main.yml -i installer/localhost --vault-password-file $1 --tags "build_installer" || exit 1
 deactivate
-cd installer
+cd installer || exit 1
 sed -i 's/VIRTUAL_ENV=.*/VIRTUAL_ENV="$(cd "$(dirname "$(dirname "${BASH_SOURCE[0]}" )")" \&\& pwd)"/' venv/bin/activate
 sed -i '1s/.*python.*/#!\/usr\/bin\/env python/' venv/bin/[a-zA-Z0-9]*
 chmod u+x run_installer.sh
