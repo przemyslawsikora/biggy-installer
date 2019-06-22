@@ -72,3 +72,12 @@
     - vars/global.yml
   roles:
     - elasticsearch
+
+- name: Install Kibana
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
+  roles:
+    - kibana

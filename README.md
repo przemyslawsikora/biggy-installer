@@ -13,6 +13,7 @@ Biggy system contains:
 - KafkaHQ (http://localhost:8080)
 - NiFi (http://localhost:8081/nifi)
 - ElasticHQ (http://localhost:5000)
+- Kibana (http://localhost:5601)
 
 ### How to build the installer?
 
