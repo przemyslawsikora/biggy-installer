@@ -45,6 +45,15 @@
   roles:
     - kafka
 
+- name: Install Spark
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
+  roles:
+    - spark
+
 - name: Install NiFi
   hosts: all
   connection: local
