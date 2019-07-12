@@ -5,6 +5,7 @@ Biggy system contains:
 - Zookeeper
 - Kafka (port 9093)
 - Schema Registry (port 8085)
+- Spark (http://localhost:8500)
 - MongoDB  
   port: 27017  
   root username: mongoadmin (change it in vars/global.yml)  

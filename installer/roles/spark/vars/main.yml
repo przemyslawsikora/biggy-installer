@@ -1,0 +1,5 @@
+spark:
+  image:
+    name: gettyimages/spark
+    version: 2.4.1-hadoop-3.0
+  file: spark_2.4.1.tar

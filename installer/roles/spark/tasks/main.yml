@@ -1,0 +1,87 @@
+---
+- name: Pull and save Spark image
+  docker_image:
+    name: "{{ spark.image.name }}:{{ spark.image.version }}"
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/{{ spark.file }}"
+    timeout: 300
+  tags:
+    - build_installer
+
+- name: Load Spark image
+  docker_image:
+    name: "{{ spark.image.name }}:{{ spark.image.version }}"
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/{{ spark.file }}"
+
+- name: Create Spark master conf volume
+  docker_volume:
+    name: spark-master-conf
+
+- name: Create Spark worker conf volume
+  docker_volume:
+    name: spark-worker-conf
+
+- name: Create Spark data volume
+  docker_volume:
+    name: spark-data
+
+- name: Create Spark master container
+  docker_container:
+    name: spark-master
+    image: "{{ spark.image.name }}:{{ spark.image.version }}"
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - sparkmaster
+    purge_networks: yes
+    exposed_ports:
+      - "7001"
+      - "7002"
+      - "7003"
+      - "7004"
+      - "7005"
+      - "7077"
+      - "6066"
+    published_ports:
+      - 127.0.0.1:8500:8500
+    volumes:
+      - spark-master-conf:/conf
+      - spark-data:/tmp/data
+    env:
+      MASTER: "spark://sparkmaster:7077"
+      SPARK_MASTER_WEBUI_PORT: "8500"
+      SPARK_CONF_DIR: "/conf"
+      SPARK_PUBLIC_DNS: "localhost"
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h sparkmaster
+
+- name: Create Spark worker container
+  docker_container:
+    name: spark-worker
+    image: "{{ spark.image.name }}:{{ spark.image.version }}"
+    restart_policy: always
+    networks:
+      - name: "{{ docker_network_name }}"
+        aliases:
+          - sparkworker
+    purge_networks: yes
+    exposed_ports:
+      - "7012"
+      - "7013"
+      - "7014"
+      - "7015"
+      - "8881"
+    published_ports:
+      - 127.0.0.1:8501:8501
+    volumes:
+      - spark-worker-conf:/conf
+      - spark-data:/tmp/data
+    env:
+      SPARK_CONF_DIR: "/conf"
+      SPARK_WORKER_CORES: "2"
+      SPARK_WORKER_MEMORY: "1g"
+      SPARK_WORKER_PORT: "8881"
+      SPARK_WORKER_WEBUI_PORT: "8501"
+      SPARK_PUBLIC_DNS: "localhost"
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://sparkmaster:7077
