@@ -81,3 +81,12 @@
     - vars/global.yml
   roles:
     - kibana
+
+- name: Install Glances
+  hosts: all
+  connection: local
+  become: yes
+  vars_files:
+    - vars/global.yml
+  roles:
+    - glances

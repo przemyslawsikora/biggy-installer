@@ -1,0 +1,27 @@
+---
+- name: Pull and save Glances image
+  docker_image:
+    name: nicolargo/glances:latest
+    source: pull
+    archive_path: "{{ playbook_dir }}/artifacts/nicolargo_glances_latest.tar"
+    timeout: 300
+  tags:
+    - build_installer
+
+- name: Load Glances image
+  docker_image:
+    name: nicolargo/glances:latest
+    source: load
+    load_path: "{{ playbook_dir }}/artifacts/nicolargo_glances_latest.tar"
+
+- name: Create Glances container
+  docker_container:
+    name: glances
+    image: nicolargo/glances:latest
+    restart_policy: always
+    pid_mode: host
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    env:
+      GLANCES_OPT: "-w"
