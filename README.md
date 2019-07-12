@@ -14,6 +14,7 @@ Biggy system contains:
 - NiFi (http://localhost:8081/nifi)
 - ElasticHQ (http://localhost:5000)
 - Kibana (http://localhost:5601)
+- Glances (http://localhost:61208)
 
 ### How to build the installer?
 
